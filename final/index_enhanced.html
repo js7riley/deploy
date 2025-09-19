@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="zSYSPROG - Complete technical guide for deploying and configuring IBM OMEGAMON z/OS monitoring solutions">
+    <meta name="keywords" content="zSYSPROG, OMEGAMON, z/OS, IBM, deployment, monitoring, technical guide">
+    <meta name="author" content="zSYSPROG">
+    <title>zSYSPROG - OMEGAMON z/OS Deployment - Complete Technical Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ibm-blue': '#0f62fe',
+                        'ibm-dark-blue': '#002d9c',
+                        'ibm-light-blue': '#4589ff'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Navigation Header -->
+    <nav class="fixed top-0 left-0 right-0 bg-ibm-dark-blue text-white shadow-lg z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="images/zSYSPROG_logo.png" alt="zSYSPROG Logo" class="logo mr-3">
+                    <div>
+                        <div class="text-sm font-semibold text-gray-300">zSYSPROG</div>
+                        <h1 class="text-lg font-bold">OMEGAMON z/OS Deployment Guide</h1>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#overview" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Overview</a>
+                        <a href="#architecture" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Architecture</a>
+                        <a href="#requirements" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Requirements</a>
+                        <a href="#deployment" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Deployment</a>
+                        <a href="#configuration" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Configuration</a>
+                        <a href="#monitoring" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Monitoring</a>
+                        <a href="#troubleshooting" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Troubleshooting</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white hover:text-gray-300 focus:outline-none focus:text-gray-300">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="fixed top-16 left-0 right-0 bg-white border-b border-gray-200 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="relative">
+                <input type="text" id="search-input" placeholder="Search documentation..." 
+                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ibm-blue focus:border-transparent">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-12">
+        <!-- Hero Section -->
+        <section id="overview" class="bg-gradient-to-r from-ibm-dark-blue to-ibm-blue text-white py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <img src="images/zSYSPROG_logo.png" alt="zSYSPROG Logo" class="hero-logo mx-auto mb-2">
+                        <div class="text-2xl font-bold text-white mb-2">zSYSPROG</div>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">OMEGAMON z/OS Deployment</h1>
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+                        Complete technical guide for deploying and configuring IBM OMEGAMON z/OS monitoring solutions
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#deployment" class="bg-white text-ibm-dark-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                            Start Deployment
+                        </a>
+                        <a href="#architecture" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-ibm-dark-blue transition-colors">
+                            View Architecture
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">What is OMEGAMON z/OS?</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        OMEGAMON is IBM's comprehensive monitoring and management solution for z/OS systems, 
+                        providing real-time performance monitoring and availability tracking using IBM Configuration Manager.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="text-center p-6 bg-gray-50 rounded-lg">
+                        <div class="w-16 h-16 bg-ibm-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Performance Monitoring</h3>
+                        <p class="text-gray-600">Real-time monitoring of processor usage, I/O operations, enqueue processes, paging rates, and system resources</p>
+                    </div>
+                    
+                    <div class="text-center p-6 bg-gray-50 rounded-lg">
+                        <div class="w-16 h-16 bg-ibm-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">AI-Powered Insights</h3>
+                        <p class="text-gray-600">Advanced anomaly detection and performance forecasting with IBM Z OMEGAMON AI capabilities</p>
+                    </div>
+                    
+                    <div class="text-center p-6 bg-gray-50 rounded-lg">
+                        <div class="w-16 h-16 bg-ibm-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Enterprise Integration</h3>
+                        <p class="text-gray-600">Seamless integration with IBM System Automation, Netview, Tivoli Management Services, and modern tools like Grafana</p>
+                    </div>
+                </div>
+
+                <!-- Key Features from Real Data -->
+                <div class="bg-gray-50 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold mb-6">Key Monitoring Capabilities (Based on Current IBM Documentation)</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Enqueue processes monitoring across sysplexes
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                I/O operations tracking and analysis
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Processor performance analysis
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Service class performance goal validation
+                            </li>
+                        </ul>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Paging rates monitoring
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Pool storage utilization tracking
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Network performance tracking
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Common storage usage by address space
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Requirements Section -->
+        <section id="requirements" class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">System Requirements (2025)</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Current system requirements and prerequisites based on latest IBM documentation
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Operating System Requirements -->
+                    <div class="bg-white rounded-lg p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-ibm-blue">Operating System</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Minimum z/OS:</span>
+                                <span class="text-gray-600">1 Release 8+</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Recommended:</span>
+                                <span class="text-gray-600">6.2.3 Fix Pack 1+</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hardware Support:</span>
+                                <span class="text-gray-600">z/OS 2.1+ environments</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tivoli Management Services -->
+                    <div class="bg-white rounded-lg p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-ibm-blue">Tivoli Management Services</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Minimum Version:</span>
+                                <span class="text-gray-600">6.3.0 Fix Pack 6</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">OMEGAMON 5.5.0+:</span>
+                                <span class="text-gray-600">6.3.0 FP6+ required</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Status:</span>
+                                <span class="text-green-600 font-semibold">Required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Storage Requirements from PDF -->
+                    <div class="bg-white rounded-lg p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-ibm-blue">Storage Footprint</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="font-medium">TARGET Libraries:</span>
+                                <span class="text-gray-600">1,640 cylinders</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">RUNTIME (z/OS only):</span>
+                                <span class="text-gray-600">1,851 cylinders</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">RUNTIME (Full):</span>
+                                <span class="text-gray-600">2,231 cylinders</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Storage Breakdown from PDF -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-lg">
+                    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold">Detailed Storage Breakdown (From IBM WSC Deployment Guide)</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Library Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cylinders (3390)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Datasets</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">VSAM</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sequential</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TARGET Libraries</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1,640</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">53</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">52 + 1 ZFS</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RUNTIME (z/OS only)</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1,851</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">207</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">57</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">150</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RUNTIME (z/OS, MFN, Storage)</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2,231</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">213</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">65</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">148</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">OMEGAMON Architecture</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Understanding the core components and architecture based on IBM documentation and deployment guide
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center mb-12">
+                    <div>
+                        <img src="../content/multimedia/zos_hardware_architecture.png" alt="z/OS Hardware Architecture" 
+                             class="w-full rounded-lg shadow-lg">
+                        <p class="text-center text-gray-600 mt-4 text-sm">z/OS Hardware Architecture Overview</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Core Components</h3>
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-ibm-blue pl-4">
+                                <h4 class="font-semibold text-lg">BASE Libraries</h4>
+                                <p class="text-gray-600">SMP/E Target libraries (**.TK* pattern) - Currently under HLQ ZMON.TK*</p>
+                            </div>
+                            <div class="border-l-4 border-ibm-blue pl-4">
+                                <h4 class="font-semibold text-lg">RUNTIME Libraries</h4>
+                                <p class="text-gray-600">Configuration libraries (**.&SYSNAME..R* pattern) - Parameter and command libraries</p>
+                            </div>
+                            <div class="border-l-4 border-ibm-blue pl-4">
+                                <h4 class="font-semibold text-lg">Tivoli Management Services</h4>
+                                <p class="text-gray-600">Critical infrastructure: security, data transfer, storage, notifications, user management</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configuration Options from PDF -->
+                <div class="bg-gray-50 rounded-lg p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6">Configuration Options (From IBM WSC Guide)</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="border border-gray-200 rounded-lg p-6 bg-white">
+                            <h4 class="text-xl font-semibold mb-3 text-ibm-blue">SHARE Configuration (Recommended)</h4>
+                            <p class="text-gray-600 mb-4">Chosen for minimal footprint and simplified maintenance</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Shared BASE libraries across LPARs
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Reduced storage footprint
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Simplified maintenance procedures
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-6 bg-white">
+                            <h4 class="text-xl font-semibold mb-3 text-ibm-blue">FULL Configuration</h4>
+                            <p class="text-gray-600 mb-4">Complete runtime environment on each z/OS LPAR</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Independent LPAR environments
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Complete runtime libraries per LPAR
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Higher storage requirements
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-ibm-dark-blue text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <img src="images/zSYSPROG_logo.png" alt="zSYSPROG Logo" class="footer-logo mr-3">
+                            <h3 class="text-lg font-semibold">zSYSPROG</h3>
+                        </div>
+                        <p class="text-gray-300 text-sm">
+                            Comprehensive OMEGAMON z/OS technical guide based on IBM WSC Internal Deployment documentation and current IBM resources (2025).
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">Quick Links</h4>
+                        <ul class="space-y-2 text-sm text-gray-300">
+                            <li><a href="#overview" class="hover:text-white">Overview</a></li>
+                            <li><a href="#deployment" class="hover:text-white">Deployment</a></li>
+                            <li><a href="#configuration" class="hover:text-white">Configuration</a></li>
+                            <li><a href="#troubleshooting" class="hover:text-white">Troubleshooting</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">Resources</h4>
+                        <ul class="space-y-2 text-sm text-gray-300">
+                            <li><a href="https://www.ibm.com/docs/en/omegamon-for-zos" class="hover:text-white" target="_blank">IBM Documentation</a></li>
+                            <li><a href="https://www.ibm.com/products/omegamon" class="hover:text-white" target="_blank">Product Page</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">Source Information</h4>
+                        <p class="text-sm text-gray-300">
+                            Jeffrey S. Riley, IBM WSC<br>
+                            May 2025 Deployment Guide<br>
+                            Enhanced with 2025 IBM Research
+                        </p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-600 mt-8 pt-8 text-center text-sm text-gray-300">
+                    <p>&copy; 2025 zSYSPROG. OMEGAMON z/OS Deployment Guide. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>

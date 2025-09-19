@@ -1,0 +1,361 @@
+/* Main CSS for OMEGAMON z/OS Deployment Guide */
+
+/* Custom IBM Colors */
+:root {
+    --ibm-blue: #0f62fe;
+    --ibm-dark-blue: #002d9c;
+    --ibm-light-blue: #4589ff;
+    --ibm-gray: #f4f4f4;
+    --ibm-dark-gray: #393939;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navigation Enhancements */
+.nav-link {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    transform: translateY(-1px);
+}
+
+.nav-link.active {
+    background-color: var(--ibm-blue);
+}
+
+/* Search Bar Enhancements */
+#search-input {
+    transition: all 0.3s ease;
+}
+
+#search-input:focus {
+    box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: var(--ibm-blue);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--ibm-dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 98, 254, 0.3);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--ibm-blue);
+    border: 2px solid var(--ibm-blue);
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: var(--ibm-blue);
+    color: white;
+}
+
+/* Card Styles */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Deployment Step Styles */
+.deployment-step {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.deployment-step:hover {
+    background-color: #f8faff;
+    border-color: var(--ibm-blue);
+}
+
+.deployment-step.completed {
+    background-color: #f0f9ff;
+    border-color: #10b981;
+}
+
+.deployment-step.completed .step-number {
+    background-color: #10b981;
+}
+
+.step-number {
+    transition: all 0.3s ease;
+}
+
+/* Progress Bar */
+.progress-bar {
+    transition: width 0.5s ease;
+}
+
+/* Code Blocks */
+pre, code {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+}
+
+pre {
+    padding: 16px;
+    overflow-x: auto;
+    border-left: 4px solid var(--ibm-blue);
+}
+
+code {
+    padding: 2px 6px;
+    font-size: 0.9em;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: var(--ibm-dark-gray);
+}
+
+tr:hover {
+    background-color: #f8faff;
+}
+
+/* Responsive Images */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Logo Styles */
+.logo {
+    max-height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.hero-logo {
+    max-height: 64px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(1.1);
+}
+
+.footer-logo {
+    max-height: 32px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Alert Styles */
+.alert {
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    border-left: 4px solid;
+}
+
+.alert-info {
+    background-color: #eff6ff;
+    border-color: var(--ibm-blue);
+    color: #1e40af;
+}
+
+.alert-warning {
+    background-color: #fffbeb;
+    border-color: #f59e0b;
+    color: #92400e;
+}
+
+.alert-success {
+    background-color: #f0fdf4;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+.alert-error {
+    background-color: #fef2f2;
+    border-color: #ef4444;
+    color: #991b1b;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--ibm-blue);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .text-6xl {
+        font-size: 3rem;
+    }
+    
+    .text-4xl {
+        font-size: 2.25rem;
+    }
+    
+    /* Mobile Logo Adjustments */
+    .logo {
+        max-height: 32px;
+    }
+    
+    .hero-logo {
+        max-height: 48px;
+    }
+    
+    .footer-logo {
+        max-height: 24px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .fixed, nav, footer {
+        display: none;
+    }
+    
+    main {
+        padding-top: 0;
+    }
+    
+    .no-print {
+        display: none;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus Styles */
+*:focus {
+    outline: 2px solid var(--ibm-blue);
+    outline-offset: 2px;
+}
+
+button:focus, a:focus {
+    outline: 2px solid var(--ibm-blue);
+    outline-offset: 2px;
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
