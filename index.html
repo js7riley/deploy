@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMEGAMON z/OS Deployment - Complete Technical Guide</title>
+    <meta name="description" content="zSYSPROG - Complete technical guide for deploying and configuring IBM OMEGAMON z/OS monitoring solutions">
+    <meta name="keywords" content="zSYSPROG, OMEGAMON, z/OS, IBM, deployment, monitoring, technical guide">
+    <meta name="author" content="zSYSPROG">
+    <title>zSYSPROG - OMEGAMON z/OS Deployment - Complete Technical Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
@@ -23,52 +26,34 @@
 </head>
 <body class="bg-gray-50 text-gray-900">
     <!-- Navigation Header -->
-    <nav class="fixed top-0 left-0 right-0 bg-blue-900 text-white shadow-lg z-50">
+    <nav class="fixed top-0 left-0 right-0 bg-ibm-dark-blue text-white shadow-lg z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-bold">IBM Z OMEGAMON AI</h1>
+                    <img src="images/zSYSPROG_logo.png" alt="zSYSPROG Logo" class="logo mr-3">
+                    <div>
+                        <div class="text-sm font-semibold text-gray-300">zSYSPROG</div>
+                        <h1 class="text-lg font-bold">OMEGAMON z/OS Deployment Guide</h1>
+                    </div>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#overview" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">Overview</a>
-                        <a href="#implementation" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">Implementation</a>
-                        <a href="#configuration" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">Configuration</a>
-                        <a href="#virtual-cics" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">Virtual CICS</a>
-                        <a href="#monitoring" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">Monitoring</a>
-                        <a href="#security" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">Security</a>
-                        <a href="#resources" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors">Resources</a>
+                        <a href="#overview" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Overview</a>
+                        <a href="#architecture" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Architecture</a>
+                        <a href="#requirements" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Requirements</a>
+                        <a href="#deployment" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Deployment</a>
+                        <a href="#configuration" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Configuration</a>
+                        <a href="#monitoring" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Monitoring</a>
+                        <a href="#troubleshooting" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-ibm-blue transition-colors">Troubleshooting</a>
                     </div>
                 </div>
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="text-white hover:text-gray-300 focus:outline-none focus:text-gray-300">
-                        <svg
-class="h-6 w-6"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor"
->
-                            <path
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M4 6h16M4 12h16M4 18h16"
-></path>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
                 </div>
-            </div>
-        </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-blue-800">
-                <a href="#overview" class="nav-link block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Overview</a>
-                <a href="#implementation" class="nav-link block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Implementation</a>
-                <a href="#configuration" class="nav-link block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Configuration</a>
-                <a href="#virtual-cics" class="nav-link block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Virtual CICS</a>
-                <a href="#monitoring" class="nav-link block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Monitoring</a>
-                <a href="#security" class="nav-link block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Security</a>
-                <a href="#resources" class="nav-link block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Resources</a>
             </div>
         </div>
     </nav>
@@ -77,25 +62,11 @@ d="M4 6h16M4 12h16M4 18h16"
     <div class="fixed top-16 left-0 right-0 bg-white border-b border-gray-200 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div class="relative">
-                <input
-type="text"
-id="search-input"
-placeholder="Search technical documentation..."
-class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
->
+                <input type="text" id="search-input" placeholder="Search documentation..." 
+                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ibm-blue focus:border-transparent">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg
-class="h-5 w-5 text-gray-400"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor"
->
-                        <path
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-></path>
+                    <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
             </div>
@@ -104,348 +75,333 @@ d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
 
     <!-- Main Content -->
     <main class="pt-28 pb-12">
-        <!-- Overview Section -->
-        <section id="overview" class="section-content">
+        <!-- Hero Section -->
+        <section id="overview" class="bg-gradient-to-r from-ibm-dark-blue to-ibm-blue text-white py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Overview & Introduction</h2>
+                <div class="text-center">
+                    <div class="mb-4">
+                        <img src="images/zSYSPROG_logo.png" alt="zSYSPROG Logo" class="hero-logo mx-auto mb-2">
+                        <div class="text-2xl font-bold text-white mb-2">zSYSPROG</div>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">OMEGAMON z/OS Deployment</h1>
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+                        Complete technical guide for deploying and configuring IBM OMEGAMON z/OS monitoring solutions
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#deployment" class="bg-white text-ibm-dark-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                            Start Deployment
+                        </a>
+                        <a href="#architecture" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-ibm-dark-blue transition-colors">
+                            View Architecture
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">What is OMEGAMON z/OS?</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        OMEGAMON is IBM's comprehensive monitoring and management solution for z/OS systems, 
+                        providing real-time performance monitoring and availability tracking using IBM Configuration Manager.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="text-center p-6 bg-gray-50 rounded-lg">
+                        <div class="w-16 h-16 bg-ibm-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Performance Monitoring</h3>
+                        <p class="text-gray-600">Real-time monitoring of processor usage, I/O operations, enqueue processes, paging rates, and system resources</p>
+                    </div>
                     
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
-                        <div>
-                            <h3 class="text-xl font-semibold mb-4">Platform Overview</h3>
-                            <p class="text-gray-700 mb-4">IBM Z OMEGAMON AI for z/OS is a comprehensive monitoring solution for z/OS environments, leveraging AI for anomaly detection and performance optimization.</p>
-                            <p class="text-gray-700 mb-4">Implementation involves planning sysplex configurations, installing via SMP/E, and customizing parameters for data collection and security.</p>
-                            <p class="text-gray-700">Key components include the Tivoli Enterprise Monitoring Server (TEMS), OMEGAMON Subsystem, and data providers for integration with external tools.</p>
+                    <div class="text-center p-6 bg-gray-50 rounded-lg">
+                        <div class="w-16 h-16 bg-ibm-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
                         </div>
-                        <div>
-                            <img
-src="images/pptx_image_32_image1.png"
-alt="OMEGAMON Architecture Overview"
-class="w-full h-auto rounded-lg shadow-md"
->
-                        </div>
+                        <h3 class="text-xl font-semibold mb-2">AI-Powered Insights</h3>
+                        <p class="text-gray-600">Advanced anomaly detection and performance forecasting with IBM Z OMEGAMON AI capabilities</p>
                     </div>
+                    
+                    <div class="text-center p-6 bg-gray-50 rounded-lg">
+                        <div class="w-16 h-16 bg-ibm-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Enterprise Integration</h3>
+                        <p class="text-gray-600">Seamless integration with IBM System Automation, Netview, Tivoli Management Services, and modern tools like Grafana</p>
+                    </div>
+                </div>
 
-                    <div class="collapsible-section mb-6">
-                        <button class="collapsible-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                            <h3 class="text-lg font-semibold flex items-center justify-between">
-                                Architecture Components
-                                <svg
-class="w-5 h-5 transform transition-transform"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor"
->
-                                    <path
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M19 9l-7 7-7-7"
-></path>
+                <!-- Key Features from Real Data -->
+                <div class="bg-gray-50 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold mb-6">Key Monitoring Capabilities (Based on Current IBM Documentation)</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                            </h3>
-                        </button>
-                        <div class="collapsible-content hidden p-4 bg-gray-50 rounded-b-lg">
-                            <p class="text-gray-700 mb-4">The architecture of IBM Z OMEGAMON AI for z/OS is built around Tivoli Management Services on z/OS, facilitating secure data collection, storage, and visualization. At its core is an agent-server-client model:</p>
-                            <ul class="list-disc list-inside text-gray-700 space-y-2">
-                                <li><strong>Tivoli Enterprise Monitoring Server (TEMS):</strong> Serves as the central hub for data aggregation. It can operate on distributed (e.g., Linux) or mainframe systems.</li>
-                                <li><strong>OMEGAMON Subsystem:</strong> Handles data collection from z/OS components including RMF, UNIX System Services, and ICSF.</li>
-                                <li><strong>Data Providers:</strong> Enable integration with external tools and observability platforms.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-                        <h4 class="text-lg font-semibold text-blue-900 mb-2">Key Benefits</h4>
-                        <ul class="list-disc list-inside text-blue-800 space-y-1">
-                            <li>AI-driven insights for anomaly detection and performance optimization</li>
-                            <li>Real-time and historical data monitoring capabilities</li>
-                            <li>Seamless integration into z/OS sysplex environments</li>
-                            <li>Support for version 6.1 with enhanced AI capabilities</li>
+                                Enqueue processes monitoring across sysplexes
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                I/O operations tracking and analysis
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Processor performance analysis
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Service class performance goal validation
+                            </li>
+                        </ul>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Paging rates monitoring
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Pool storage utilization tracking
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Network performance tracking
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Common storage usage by address space
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Technical Implementation Section -->
-        <section id="implementation" class="section-content">
+        <!-- System Requirements Section -->
+        <section id="requirements" class="py-16 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Technical Implementation</h2>
-                    
-                    <div class="mb-8">
-                        <p class="text-gray-700 mb-6">Implementing IBM Z OMEGAMON AI for z/OS requires a structured approach starting with hardware and software verification, followed by installation and detailed configuration. The process ensures seamless integration into z/OS sysplex environments, enabling real-time and historical data monitoring.</p>
-                    </div>
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">System Requirements (2025)</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Current system requirements and prerequisites based on latest IBM documentation
+                    </p>
+                </div>
 
-                    <!-- Tabbed Interface for Implementation Steps -->
-                    <div class="tab-container mb-8">
-                        <div class="tab-headers flex border-b border-gray-200">
-                            <button class="tab-header active px-6 py-3 text-sm font-medium border-b-2 border-blue-500 text-blue-600" data-tab="planning">Planning</button>
-                            <button class="tab-header px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="installation">Installation</button>
-                            <button class="tab-header px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="config-tab">Configuration</button>
-                            <button class="tab-header px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="monitoring-tab">Monitoring Setup</button>
-                        </div>
-                        
-                        <div class="tab-content mt-6">
-                            <div id="planning" class="tab-pane active">
-                                <h3 class="text-xl font-semibold mb-4">Planning Phase</h3>
-                                <p class="text-gray-700 mb-4">Define sysplexes, enqplexes, and historical data stores.</p>
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Prerequisites:</h4>
-                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
-                                        <li>z/OS 2.4 or later</li>
-                                        <li>Specific RACF authorizations</li>
-                                        <li>Active RMF components for accurate monitoring</li>
-                                        <li>Hardware and software verification</li>
-                                    </ul>
-                                </div>
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Operating System Requirements -->
+                    <div class="bg-white rounded-lg p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-ibm-blue">Operating System</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Minimum z/OS:</span>
+                                <span class="text-gray-600">1 Release 8+</span>
                             </div>
-                            
-                            <div id="installation" class="tab-pane hidden">
-                                <h3 class="text-xl font-semibold mb-4">Installation Procedures</h3>
-                                <p class="text-gray-700 mb-4">Use SMP/E jobs and verify component levels.</p>
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Installation Steps:</h4>
-                                    <ol class="list-decimal list-inside text-gray-700 space-y-1">
-                                        <li>SMP/E installation process</li>
-                                        <li>Library allocation and runtime setup</li>
-                                        <li>Post-installation configuration</li>
-                                        <li>Component level verification</li>
-                                    </ol>
-                                </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Recommended:</span>
+                                <span class="text-gray-600">6.2.3 Fix Pack 1+</span>
                             </div>
-                            
-                            <div id="config-tab" class="tab-pane hidden">
-                                <h3 class="text-xl font-semibold mb-4">Configuration Management</h3>
-                                <p class="text-gray-700 mb-4">Customize KM2/KM5 parameters and enable security.</p>
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Configuration Tools:</h4>
-                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
-                                        <li>PARMGEN for parameter customization</li>
-                                        <li>KM2 and KM5 prefixed parameters</li>
-                                        <li>Security profile configuration</li>
-                                        <li>Data collection parameter setup</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div id="monitoring-tab" class="tab-pane hidden">
-                                <h3 class="text-xl font-semibold mb-4">Monitoring Setup</h3>
-                                <p class="text-gray-700 mb-4">Activate data collections for RMF, UNIX, and ICSF.</p>
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Data Collection Components:</h4>
-                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
-                                        <li>RMF data collection configuration</li>
-                                        <li>UNIX System Services monitoring</li>
-                                        <li>ICSF monitoring setup</li>
-                                        <li>External tool integration</li>
-                                    </ul>
-                                </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Hardware Support:</span>
+                                <span class="text-gray-600">z/OS 2.1+ environments</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                        <h4 class="text-lg font-semibold text-yellow-900 mb-2">Version Considerations</h4>
-                        <p class="text-yellow-800">For version 6.1 (the latest as of 2025), emphasis is on AI-driven insights, while older versions like 5.5.0 focus on core monitoring capabilities.</p>
+                    <!-- Tivoli Management Services -->
+                    <div class="bg-white rounded-lg p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-ibm-blue">Tivoli Management Services</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Minimum Version:</span>
+                                <span class="text-gray-600">6.3.0 Fix Pack 6</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">OMEGAMON 5.5.0+:</span>
+                                <span class="text-gray-600">6.3.0 FP6+ required</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">Status:</span>
+                                <span class="text-green-600 font-semibold">Required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Storage Requirements from PDF -->
+                    <div class="bg-white rounded-lg p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-ibm-blue">Storage Footprint</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="font-medium">TARGET Libraries:</span>
+                                <span class="text-gray-600">1,640 cylinders</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">RUNTIME (z/OS only):</span>
+                                <span class="text-gray-600">1,851 cylinders</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">RUNTIME (Full):</span>
+                                <span class="text-gray-600">2,231 cylinders</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Storage Breakdown from PDF -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-lg">
+                    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold">Detailed Storage Breakdown (From IBM WSC Deployment Guide)</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Library Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cylinders (3390)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Datasets</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">VSAM</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sequential</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TARGET Libraries</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1,640</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">53</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">52 + 1 ZFS</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RUNTIME (z/OS only)</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1,851</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">207</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">57</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">150</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">RUNTIME (z/OS, MFN, Storage)</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2,231</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">213</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">65</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">148</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Configuration Management Section -->
-        <section id="configuration" class="section-content">
+        <!-- Architecture Section -->
+        <section id="architecture" class="py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Configuration Management</h2>
-                    
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
-                        <div>
-                            <h3 class="text-xl font-semibold mb-4">Configuration Manager Overview</h3>
-                            <p class="text-gray-700 mb-4">The Configuration Manager provides Cross SYSPLEX support capabilities with JCL-based task handling for comprehensive configuration management across multiple systems.</p>
-                            
-                            <div class="bg-blue-50 p-4 rounded-lg mb-4">
-                                <h4 class="font-semibold text-blue-900 mb-2">Key Features:</h4>
-                                <ul class="list-disc list-inside text-blue-800 space-y-1">
-                                    <li>Cross SYSPLEX support</li>
-                                    <li>JCL-based task handling</li>
-                                    <li>Automated configuration deployment</li>
-                                    <li>Remote system management</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div>
-                            <img
-src="images/pptx_image_33_image2.png"
-alt="Configuration Manager Architecture"
-class="w-full h-auto rounded-lg shadow-md"
->
-                        </div>
-                    </div>
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">OMEGAMON Architecture</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Understanding the core components and architecture based on IBM documentation and deployment guide
+                    </p>
+                </div>
 
-                    <!-- Action Extensions -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Action Extensions</h3>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">CREATE/MIGRATE</h4>
-                                <p class="text-gray-700 text-sm">Action extension for creating and migrating configurations across systems.</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">DISCOVER</h4>
-                                <p class="text-gray-700 text-sm">Action extensions for discovering existing configurations and system components.</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">GENERATE</h4>
-                                <p class="text-gray-700 text-sm">Action extension for generating configuration files and deployment packages.</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">PACKAGE</h4>
-                                <p class="text-gray-700 text-sm">Action details and deployment package creation for distribution.</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">DEPLOY</h4>
-                                <p class="text-gray-700 text-sm">Action implementation for deploying configurations to target systems.</p>
-                            </div>
-                        </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center mb-12">
+                    <div>
+                        <img src="../content/multimedia/zos_hardware_architecture.png" alt="z/OS Hardware Architecture" 
+                             class="w-full rounded-lg shadow-lg">
+                        <p class="text-center text-gray-600 mt-4 text-sm">z/OS Hardware Architecture Overview</p>
                     </div>
-
-                    <!-- Remote Deployment -->
-                    <div class="collapsible-section">
-                        <button class="collapsible-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                            <h3 class="text-lg font-semibold flex items-center justify-between">
-                                Remote Deployment Procedures
-                                <svg
-class="w-5 h-5 transform transition-transform"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor"
->
-                                    <path
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M19 9l-7 7-7-7"
-></path>
-                                </svg>
-                            </h3>
-                        </button>
-                        <div class="collapsible-content hidden p-4 bg-gray-50 rounded-b-lg">
-                            <h4 class="font-semibold mb-2">Configuration LPAR (CL) Setup:</h4>
-                            <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                                <li>Configure the Configuration LPAR environment</li>
-                                <li>Set up network connectivity between systems</li>
-                                <li>Establish security profiles and authorizations</li>
-                                <li>Deploy configuration packages to target systems</li>
-                                <li>Verify deployment success and system integration</li>
-                            </ol>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Core Components</h3>
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-ibm-blue pl-4">
+                                <h4 class="font-semibold text-lg">BASE Libraries</h4>
+                                <p class="text-gray-600">SMP/E Target libraries (**.TK* pattern) - Currently under HLQ ZMON.TK*</p>
+                            </div>
+                            <div class="border-l-4 border-ibm-blue pl-4">
+                                <h4 class="font-semibold text-lg">RUNTIME Libraries</h4>
+                                <p class="text-gray-600">Configuration libraries (**.&SYSNAME..R* pattern) - Parameter and command libraries</p>
+                            </div>
+                            <div class="border-l-4 border-ibm-blue pl-4">
+                                <h4 class="font-semibold text-lg">Tivoli Management Services</h4>
+                                <p class="text-gray-600">Critical infrastructure: security, data transfer, storage, notifications, user management</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Virtual CICS & AI Features Section -->
-        <section id="virtual-cics" class="section-content">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Virtual CICS & AI Features</h2>
-                    
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">IBM Z OMEGAMON AI for CICS Overview</h3>
-                        <p class="text-gray-700 mb-4">IBM Z OMEGAMON AI for CICS has evolved from its early 1980s origins to become a comprehensive monitoring solution with CICSplex wide data viewing and summarization capabilities, enhanced with new CICS metrics and statistics.</p>
-                        
-                        <div class="grid md:grid-cols-2 gap-8 mb-6">
-                            <div>
-                                <img
-src="images/pptx_image_34_image3.png"
-alt="Virtual CICS Architecture"
-class="w-full h-auto rounded-lg shadow-md"
->
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-2">Historical Context</h4>
-                                <p class="text-gray-700 mb-4">From early 1980s to present, OMEGAMON for CICS has continuously evolved to meet the changing needs of mainframe environments.</p>
-                                <h4 class="font-semibold mb-2">Current Capabilities</h4>
-                                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                                    <li>CICSplex wide data viewing</li>
-                                    <li>Enhanced data summarization</li>
-                                    <li>New CICS metrics and statistics</li>
-                                    <li>AI-powered insights integration</li>
-                                </ul>
-                            </div>
+                <!-- Configuration Options from PDF -->
+                <div class="bg-gray-50 rounded-lg p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6">Configuration Options (From IBM WSC Guide)</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="border border-gray-200 rounded-lg p-6 bg-white">
+                            <h4 class="text-xl font-semibold mb-3 text-ibm-blue">SHARE Configuration (Recommended)</h4>
+                            <p class="text-gray-600 mb-4">Chosen for minimal footprint and simplified maintenance</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Shared BASE libraries across LPARs
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Reduced storage footprint
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Simplified maintenance procedures
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-
-                    <!-- Latest AI Capabilities -->
-                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg mb-8">
-                        <h3 class="text-xl font-semibold mb-4 text-blue-900">Latest AI Capabilities (Version 6.1.0)</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="font-semibold mb-2 text-blue-800">IBM Z OMEGAMON AI Insights 2.1</h4>
-                                <ul class="list-disc list-inside text-blue-700 space-y-1">
-                                    <li>Machine learning for anomaly detection</li>
-                                    <li>Predictive analytics and forecasting</li>
-                                    <li>Automated pattern recognition</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-2 text-blue-800">Enhanced Performance</h4>
-                                <ul class="list-disc list-inside text-blue-700 space-y-1">
-                                    <li>Reduced CPU footprint</li>
-                                    <li>zIIP-enabled collection</li>
-                                    <li>Optimized resource utilization</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Enhanced Features -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Enhanced Features</h3>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
-                                <h4 class="font-semibold mb-2">CICS Transaction Gateway</h4>
-                                <p class="text-gray-700 text-sm">Memory statistics and performance monitoring for CICS Transaction Gateway components.</p>
-                            </div>
-                            <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
-                                <h4 class="font-semibold mb-2">CICS-DB2 Correlation</h4>
-                                <p class="text-gray-700 text-sm">Correlating CICS tasks and DB2 threads for comprehensive transaction analysis.</p>
-                            </div>
-                            <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
-                                <h4 class="font-semibold mb-2">Response Time Analytics</h4>
-                                <p class="text-gray-700 text-sm">Current Average Response Time for CICS Regions and CICSplexes monitoring.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Integration Capabilities -->
-                    <div class="collapsible-section">
-                        <button class="collapsible-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                            <h3 class="text-lg font-semibold flex items-center justify-between">
-                                Integration Capabilities
-                                <svg
-class="w-5 h-5 transform transition-transform"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor"
->
-                                    <path
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M19 9l-7 7-7-7"
-></path>
-                                </svg>
-                            </h3>
-                        </button>
-                        <div class="collapsible-content hidden p-4 bg-gray-50 rounded-b-lg">
-                            <ul class="list-disc list-inside text-gray-700 space-y-2">
-                                <li><strong>CP/SM CICS System Groups:</strong> Support for CICS System Groups management and monitoring</li>
-                                <li><strong>CICS API Requester:</strong> Application monitoring via zCEE (z/OS Common Enterprise Environment)</li>
-                                <li><strong>OMEGAMON Integration:</strong> Integration with other OMEGAMON products and tooling</li>
-                                <li><strong>External Tools:</strong> Connectivity with third-party monitoring and management solutions</li>
+                        <div class="border border-gray-200 rounded-lg p-6 bg-white">
+                            <h4 class="text-xl font-semibold mb-3 text-ibm-blue">FULL Configuration</h4>
+                            <p class="text-gray-600 mb-4">Complete runtime environment on each z/OS LPAR</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Independent LPAR environments
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Complete runtime libraries per LPAR
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Higher storage requirements
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -453,355 +409,53 @@ d="M19 9l-7 7-7-7"
             </div>
         </section>
 
-        <!-- Performance Monitoring Section -->
-        <section id="monitoring" class="section-content">
+        <!-- Footer -->
+        <footer class="bg-ibm-dark-blue text-white py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Performance Monitoring & Analytics</h2>
-                    
-                    <!-- Monitoring Architecture -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Monitoring Architecture</h3>
-                        <p class="text-gray-700 mb-6">The monitoring architecture follows an agent-server-client model with OMEGAMON Subsystem components and data providers for external tool integration.</p>
-                        
-                        <div class="grid md:grid-cols-3 gap-6 mb-6">
-                            <div class="text-center">
-                                <div class="bg-blue-100 p-4 rounded-lg mb-2">
-                                    <h4 class="font-semibold text-blue-900">Agent</h4>
-                                </div>
-                                <p class="text-sm text-gray-600">Data collection from z/OS components</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="bg-green-100 p-4 rounded-lg mb-2">
-                                    <h4 class="font-semibold text-green-900">Server</h4>
-                                </div>
-                                <p class="text-sm text-gray-600">TEMS data aggregation and processing</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="bg-purple-100 p-4 rounded-lg mb-2">
-                                    <h4 class="font-semibold text-purple-900">Client</h4>
-                                </div>
-                                <p class="text-sm text-gray-600">User interfaces and visualization</p>
-                            </div>
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <img src="images/zSYSPROG_logo.png" alt="zSYSPROG Logo" class="footer-logo mr-3">
+                            <h3 class="text-lg font-semibold">zSYSPROG</h3>
                         </div>
+                        <p class="text-gray-300 text-sm">
+                            Comprehensive OMEGAMON z/OS technical guide based on IBM WSC Internal Deployment documentation and current IBM resources (2025).
+                        </p>
                     </div>
-
-                    <!-- Data Collection -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Data Collection Components</h3>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div>
-                                <h4 class="font-semibold mb-3">Core Collection Areas</h4>
-                                <ul class="list-disc list-inside text-gray-700 space-y-2">
-                                    <li><strong>RMF Data Collection:</strong> Resource Measurement Facility configuration and monitoring</li>
-                                    <li><strong>UNIX System Services:</strong> Comprehensive UNIX environment monitoring</li>
-                                    <li><strong>ICSF Monitoring:</strong> Integrated Cryptographic Service Facility setup</li>
-                                    <li><strong>zCX Container Monitoring:</strong> Container monitoring with cAdvisor integration</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Collection Benefits</h4>
-                                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
-                                        <li>Real-time performance metrics</li>
-                                        <li>Historical trend analysis</li>
-                                        <li>Proactive issue detection</li>
-                                        <li>Resource optimization insights</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">Quick Links</h4>
+                        <ul class="space-y-2 text-sm text-gray-300">
+                            <li><a href="#overview" class="hover:text-white">Overview</a></li>
+                            <li><a href="#deployment" class="hover:text-white">Deployment</a></li>
+                            <li><a href="#configuration" class="hover:text-white">Configuration</a></li>
+                            <li><a href="#troubleshooting" class="hover:text-white">Troubleshooting</a></li>
+                        </ul>
                     </div>
-
-                    <!-- User Interfaces -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">User Interfaces</h3>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-900 mb-2">OMEGAMON 3270</h4>
-                                <p class="text-blue-800 text-sm">Classic interface for traditional mainframe users</p>
-                            </div>
-                            <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
-                                <h4 class="font-semibold text-green-900 mb-2">Enhanced 3270 UI</h4>
-                                <p class="text-green-800 text-sm">Enhanced interface with Take Action commands</p>
-                            </div>
-                            <div class="bg-purple-50 border border-purple-200 p-4 rounded-lg">
-                                <h4 class="font-semibold text-purple-900 mb-2">Tivoli Enterprise Portal</h4>
-                                <p class="text-purple-800 text-sm">Web-based monitoring and management interface</p>
-                            </div>
-                            <div class="bg-orange-50 border border-orange-200 p-4 rounded-lg">
-                                <h4 class="font-semibold text-orange-900 mb-2">Kibana Dashboards</h4>
-                                <p class="text-orange-800 text-sm">AI Insights visualization and analytics</p>
-                            </div>
-                        </div>
+                    <div>
+                        <h4 class="font-semibold mb-3">Resources</h4>
+                        <ul class="space-y-2 text-sm text-gray-300">
+                            <li><a href="https://www.ibm.com/docs/en/omegamon-for-zos" class="hover:text-white" target="_blank">IBM Documentation</a></li>
+                            <li><a href="https://www.ibm.com/products/omegamon" class="hover:text-white" target="_blank">Product Page</a></li>
+                        </ul>
                     </div>
-
-                    <div class="bg-green-50 border-l-4 border-green-400 p-4">
-                        <h4 class="text-lg font-semibold text-green-900 mb-2">Performance Optimization</h4>
-                        <p class="text-green-800">The monitoring system is designed for minimal overhead with zIIP offload capabilities and optimized data collection processes to ensure maximum system performance.</p>
+                    <div>
+                        <h4 class="font-semibold mb-3">Source Information</h4>
+                        <p class="text-sm text-gray-300">
+                            Jeffrey S. Riley, IBM WSC<br>
+                            May 2025 Deployment Guide<br>
+                            Enhanced with 2025 IBM Research
+                        </p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Security & Configuration Section -->
-        <section id="security" class="section-content">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Security & Configuration</h2>
-                    
-                    <!-- Security Implementation -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Security Implementation</h3>
-                        <p class="text-gray-700 mb-6">OMEGAMON supports multiple security systems including RACF, CA-ACF2, and CA-TOP SECRET with comprehensive configuration options for PassTicket generation and external security profile definitions.</p>
-                        
-                        <div class="grid md:grid-cols-3 gap-6 mb-6">
-                            <div class="bg-red-50 border border-red-200 p-4 rounded-lg">
-                                <h4 class="font-semibold text-red-900 mb-2">RACF</h4>
-                                <p class="text-red-800 text-sm">Resource Access Control Facility configuration and profile management</p>
-                            </div>
-                            <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-900 mb-2">CA-ACF2</h4>
-                                <p class="text-blue-800 text-sm">Computer Associates Access Control Facility 2 integration</p>
-                            </div>
-                            <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
-                                <h4 class="font-semibold text-green-900 mb-2">CA-TOP SECRET</h4>
-                                <p class="text-green-800 text-sm">Computer Associates Top Secret security system support</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Key Configuration Parameters -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Key Configuration Parameters</h3>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parameter</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">KM5_SYSPLEX_PROXY_POSITION</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">Sysplex proxy position settings</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">Controls proxy assignment in sysplex environments</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">KM5_PLEXVIEW</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">Plexview agent configuration</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">Enables enterprise-wide data aggregation</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">KM5_RMF_DDS_COLLECTION</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">RMF DDS collection scope control</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">Manages RMF data collection parameters</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">KM5ZIIPOFFLOAD</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">zIIP offload optimization</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">Optimizes CPU usage through zIIP processing</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Take Action Security -->
-                    <div class="collapsible-section">
-                        <button class="collapsible-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                            <h3 class="text-lg font-semibold flex items-center justify-between">
-                                Take Action Security Configuration
-                                <svg
-class="w-5 h-5 transform transition-transform"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor"
->
-                                    <path
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M19 9l-7 7-7-7"
-></path>
-                                </svg>
-                            </h3>
-                        </button>
-                        <div class="collapsible-content hidden p-4 bg-gray-50 rounded-b-lg">
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <h4 class="font-semibold mb-2">Command Authorization</h4>
-                                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
-                                        <li>Command authorization profiles</li>
-                                        <li>User privilege management</li>
-                                        <li>Action-specific permissions</li>
-                                        <li>Audit trail configuration</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold mb-2">Security Profiles</h4>
-                                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
-                                        <li>Memory operation security</li>
-                                        <li>Logon profile management</li>
-                                        <li>PassTicket generation setup</li>
-                                        <li>External security integration</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="border-t border-gray-600 mt-8 pt-8 text-center text-sm text-gray-300">
+                    <p>&copy; 2025 zSYSPROG. OMEGAMON z/OS Deployment Guide. All rights reserved.</p>
                 </div>
             </div>
-        </section>
-
-        <!-- Resources Section -->
-        <section id="resources" class="section-content">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Resources & Documentation</h2>
-                    
-                    <!-- Official Documentation -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Official Documentation Links</h3>
-                        <div class="bg-blue-50 p-6 rounded-lg">
-                            <p class="text-blue-800 mb-4">For detailed guides and comprehensive documentation, refer to IBM's official resources:</p>
-                            <a
-href="https://www.ibm.com/docs/en/omegamon-for-zos"
-target="_blank"
-rel="noopener noreferrer"
-class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
->
-                                <svg
-class="w-4 h-4 mr-2"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor"
->
-                                    <path
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-></path>
-                                </svg>
-                                IBM OMEGAMON for z/OS Documentation
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Technical References -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Technical References</h3>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">API Documentation</h4>
-                                <p class="text-gray-700 text-sm mb-2">Comprehensive API references for integration and automation</p>
-                                <ul class="list-disc list-inside text-gray-600 text-xs space-y-1">
-                                    <li>REST API endpoints</li>
-                                    <li>Data provider interfaces</li>
-                                    <li>Integration examples</li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">Configuration Examples</h4>
-                                <p class="text-gray-700 text-sm mb-2">Sample configurations and best practices</p>
-                                <ul class="list-disc list-inside text-gray-600 text-xs space-y-1">
-                                    <li>Parameter templates</li>
-                                    <li>Security profiles</li>
-                                    <li>JCL examples</li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold mb-2">Troubleshooting Guides</h4>
-                                <p class="text-gray-700 text-sm mb-2">Common issues and resolution procedures</p>
-                                <ul class="list-disc list-inside text-gray-600 text-xs space-y-1">
-                                    <li>Installation issues</li>
-                                    <li>Performance problems</li>
-                                    <li>Configuration errors</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Support Resources -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">Support Resources</h3>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div>
-                                <h4 class="font-semibold mb-3">Version Compatibility</h4>
-                                <div class="bg-white border border-gray-200 rounded-lg p-4">
-                                    <table class="w-full text-sm">
-                                        <thead>
-                                            <tr class="border-b border-gray-200">
-                                                <th class="text-left py-2">Version</th>
-                                                <th class="text-left py-2">z/OS Support</th>
-                                                <th class="text-left py-2">AI Features</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="divide-y divide-gray-100">
-                                            <tr>
-                                                <td class="py-2 font-medium">6.1.0</td>
-                                                <td class="py-2">z/OS 2.4+</td>
-                                                <td class="py-2">Full AI Support</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2 font-medium">5.5.0</td>
-                                                <td class="py-2">z/OS 2.2+</td>
-                                                <td class="py-2">Basic Analytics</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2 font-medium">5.3.0</td>
-                                                <td class="py-2">z/OS 2.1+</td>
-                                                <td class="py-2">Core Monitoring</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-3">Best Practices Summary</h4>
-                                <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
-                                    <ul class="list-disc list-inside text-green-800 space-y-2 text-sm">
-                                        <li>Plan sysplex configurations before installation</li>
-                                        <li>Implement proper security profiles from the start</li>
-                                        <li>Use zIIP offload for optimal performance</li>
-                                        <li>Regular monitoring of AI insights and alerts</li>
-                                        <li>Keep documentation and procedures updated</li>
-                                        <li>Test configurations in development environments</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-100 p-6 rounded-lg">
-                        <h4 class="text-lg font-semibold mb-2">Additional Support</h4>
-                        <p class="text-gray-700 mb-4">For additional support, community resources, and the latest updates, visit the IBM Support Portal and OMEGAMON community forums.</p>
-                        <div class="flex flex-wrap gap-4">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">PTF Requirements</span>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">Community Support</span>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Training Resources</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </footer>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <p class="text-gray-300">&copy; 2025 IBM Z OMEGAMON AI Technical Documentation. All rights reserved.</p>
-                <p class="text-gray-400 text-sm mt-2">This documentation is based on official IBM OMEGAMON materials and technical specifications.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="js/navigation.js"></script>
+    <!-- JavaScript -->
     <script src="js/main.js"></script>
+    <script src="js/navigation.js"></script>
 </body>
 </html>
